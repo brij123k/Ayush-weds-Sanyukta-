@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ayush & Sanyukta · Wedding Invitation</title>
+  <meta name="description" content="Ayush weds Sanyukta · 23rd–24th January 2027 · Stone Water Resort, Karjat" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&display=swap" rel="stylesheet" />
+  <!-- bump ?v= after every change so browsers load the new files instead of a cached copy -->
+  <link rel="stylesheet" href="style.css?v=26" />
+</head>
+<body class="intro-on">
+
+  <!-- Intro video: plays, holds on its "tap to open" frame, and opens the invite when tapped -->
+  <div id="intro" aria-label="Intro video">
+    <video id="introVideo" src="book.mp4#t=0.05" muted playsinline preload="auto"></video>
+  </div>
+
+  <div id="loader">
+    <div class="loader-inner">
+      <span class="loader-names">Ayush &amp; Sanyukta</span>
+      <span class="loader-bar"><i></i></span>
+    </div>
+  </div>
+
+  <!--
+    The whole invite is ONE canvas, 1080 x 16794 px (reference design + room for the planner at the end).
+    Each element is placed with --x / --y / --w (and --h) in reference pixels;
+    the CSS converts them to container units, so it scales exactly on any screen.
+    Positions were measured against the reference by template matching.
+    Elements are in PAINT ORDER: later lines are drawn on top.
+  -->
+  <main class="stage">
+
+    <!-- ========== THE WELCOME (before Haldi; drawn under the invitation card so the card's torn edge overlaps it) ========== -->
+    <!-- positions measured against the client's flat mockup by template matching -->
+    <img class="el fade" src="assets/welcome/welcome.png" style="--x:16; --y:3452; --w:1052;"
+         alt="The Welcome · With warmth in our hearts and joy in the air, we eagerly await the pleasure of welcoming you to Stone Water Resort, Karjat by 10:00 AM · Welcome Lunch 12:00 PM onwards" />
+    <img class="el tree-l" src="assets/welcome/left-tree.png"  style="--x:-50; --y:3240; --w:477;" alt="" />
+    <img class="el tree-r" src="assets/welcome/right-tree.png" style="--x:730; --y:3302; --w:477;" alt="" />
+    <!-- garlands hanging from the trees -->
+    <img class="el swing"    src="assets/welcome/pink.png"   style="--x:14;   --y:3402; --w:63;" alt="" />
+    <img class="el swing d3" src="assets/welcome/yellow.png" style="--x:78;   --y:3514; --w:59;" alt="" />
+    <img class="el swing d2" src="assets/welcome/pink.png"   style="--x:130;  --y:3542; --w:63;" alt="" />
+    <img class="el swing"    src="assets/welcome/yellow.png" style="--x:212;  --y:3366; --w:59;" alt="" />
+    <img class="el swing d2" src="assets/welcome/yellow.png" style="--x:818;  --y:3488; --w:59;" alt="" />
+    <img class="el swing d3" src="assets/welcome/pink.png"   style="--x:894;  --y:3514; --w:63;" alt="" />
+    <img class="el swing"    src="assets/welcome/yellow.png" style="--x:966;  --y:3346; --w:59;" alt="" />
+    <img class="el swing d2" src="assets/welcome/pink.png"   style="--x:1016; --y:3566; --w:63;" alt="" />
+
+    <!-- ========== HALDI (back layer: sits under the invitation card) ========== -->
+    <img class="el fade" src="assets/haldi/haldi.png" style="--x:0; --y:4990; --w:992;"
+         alt="O Rangrez – Haldi · 23rd January 2027, 3 pm onwards" />
+    <img class="el swing"    src="assets/haldi/marigold1.png" style="--x:130; --y:5164; --w:55;" alt="" />
+    <img class="el swing d2" src="assets/haldi/marigold1.png" style="--x:985; --y:5236; --w:60;" alt="" />
+    <img class="el swing d3" src="assets/haldi/mg2.png"       style="--x:808; --y:5074; --w:94;" alt="" />
+    <img class="el sway"     src="assets/haldi/leaf1.png"     style="--x:848; --y:4949; --w:234;" alt="" />
+
+    <!-- ========== INVITATION CARD ========== -->
+    <img class="el fade" src="assets/intro/intro.png" style="--x:0; --y:1617; --w:1080;"
+         alt="Shree Vitthalesho Jayati. Ami & Nirav Parikh request the pleasure of your presence to celebrate the wedding of their beloved son Ayush with Sanyukta" />
+    <img class="el swing"    src="assets/intro/flower-hanging.png" style="--x:75;  --y:1699; --w:68;" alt="" />
+    <img class="el swing d2" src="assets/intro/flower-hanging.png" style="--x:150; --y:1570; --w:68;" alt="" />
+    <img class="el tree-l" src="assets/intro/tree2.png" style="--x:0;   --y:1452; --w:239;" alt="" />
+    <img class="el tree-r" src="assets/intro/tree1.png" style="--x:748; --y:1260; --w:332;" alt="" />
+    <img class="el swing d3" src="assets/intro/flower-hanging.png" style="--x:861; --y:1570; --w:68;" alt="" />
+
+    <!-- ========== OUR STORY (its torn paper covers the tops of the trees) ========== -->
+    <img class="el fade" src="assets/story/our-story.png" style="--x:0; --y:35; --w:1080;"
+         alt="Fifteen years ago, we met without quite knowing what love meant… With love, Ayush & Sanyukta" />
+
+    <!-- scratch the glitter heart → reveals "23rd - 24th Jan, 2027" printed on the card -->
+    <div class="el scratch" id="scratch" style="--x:367; --y:2734; --w:391; --h:412;">
+      <img class="scratch-img" src="assets/intro/glitter-heart.png" alt="" />
+      <canvas id="scratchCanvas" aria-label="Scratch the heart to reveal the date"></canvas>
+    </div>
+    <!-- hint between the "D/o …" line and the heart; fades out once the date is revealed -->
+    <p class="el scratch-hint" id="scratchHint" style="--x:240; --y:2716; --w:600;">✦ Scratch to reveal the date ✦</p>
+
+    <!-- ========== HALDI (front layer) ========== -->
+    <!-- tap the polaroid → haldi faces.
+         haldi-face-match.png is this exact area of haldi.png with ONLY the faces turned yellow,
+         so nothing moves when it appears (made from haldi-face.png by image matching). -->
+    <button class="el haldi-photo" id="haldiPhoto" aria-label="Tap to begin the masti" aria-pressed="false"
+            style="--x:230; --y:5720; --w:640; --h:630;">
+      <img src="assets/haldi/haldi-face-match.png" alt="Ayush & Sanyukta with haldi on their faces" />
+    </button>
+    <img class="el sway d2" src="assets/haldi/flower.png" style="--x:849; --y:6263; --w:189;" alt="" />
+    <img class="el sway d3" src="assets/haldi/leaf2.png"  style="--x:0;   --y:6502; --w:204;" alt="" />
+
+    <!-- ========== SANGEET ========== -->
+    <img class="el fade" src="assets/sangeet/sangeet.png" style="--x:0; --y:6858; --w:1080;" alt="Our Soundtrack – Sangeet" />
+    <img class="el vinyl" id="vinyl" src="assets/sangeet/vinyle.png" style="--x:3; --y:8598; --w:310;" alt="Vinyl record" />
+    <button class="el ticket" id="ticket" style="--x:329; --y:8518; --w:582; --h:416;" aria-label="Tap to open your ticket">
+      <span class="ticket-inner">
+        <img class="ticket-front" src="assets/sangeet/ticket1.png" alt="You're on the guestlist!" />
+        <img class="ticket-back"  src="assets/sangeet/ticket2.png" alt="Admit one · Sat 23 Jan 2027 · 7:00 PM" />
+      </span>
+    </button>
+
+    <!-- ========== WEDDING (under the Mameru date note) ========== -->
+    <img class="el fade" src="assets/wedding/wedding.png" style="--x:0; --y:10739; --w:1080;"
+         alt="Lagnotsav – Wedding · 24th January 2027 · Safa Bandhi 3 pm · Lagna Muhurat 6:45 pm" />
+    <img class="el swing"    src="assets/wedding/chandelier.png" style="--x:55;  --y:10952; --w:217;" alt="" />
+    <img class="el swing d2" src="assets/wedding/chandelier.png" style="--x:772; --y:11020; --w:217;" alt="" />
+    <!-- PINK petals fall over the Lagnotsav section, once it scrolls into view -->
+    <div class="el petal-zone" data-petal="assets/haldi/petal-pink.png" style="--x:0; --y:10739; --w:1080; --h:2097;" aria-hidden="true"></div>
+
+    <!-- ========== MAMERU & RUKHWAT ========== -->
+    <img class="el fade" src="assets/mameru/mameru.png" style="--x:0; --y:8807; --w:1080;"
+         alt="2 States – Mameru & Rukhwat · 24th January 2027, 11 am onwards" />
+    <img class="el swing"    src="assets/mameru/lamp3.png" style="--x:147; --y:9021; --w:69;" alt="" />
+    <img class="el swing d2" src="assets/mameru/lamp2.png" style="--x:27;  --y:9265; --w:86;" alt="" />
+    <img class="el dandiya"  src="assets/mameru/dandiya.png" style="--x:863; --y:10272; --w:216;" alt="" />
+    <img class="el"          src="assets/sangeet/flower.png" style="--x:0; --y:8811; --w:508;" alt="" />
+
+  
+    <!-- ========== VENUE (before the planner, so guests see it before leaving for the PDF) ========== -->
+    <img class="el fade" src="assets/venue/venue-see-you.png" style="--x:0; --y:13406; --w:1080;"
+         alt="See you in … at Stone Water Resort, Karjat" />
+    <img class="el tree-l" src="assets/venue/tree1.png" style="--x:0;   --y:12903; --w:362;" alt="" />
+    <img class="el tree-r" src="assets/venue/tree2.png" style="--x:706; --y:12881; --w:374;" alt="" />
+
+    <div class="el countdown" id="countdown" style="--x:0; --y:13462; --w:1080;" aria-label="Countdown to the celebrations">
+      <span class="cd-unit"><b data-k="d">00</b><small>DAYS</small></span><i>:</i>
+      <span class="cd-unit"><b data-k="h">00</b><small>HOURS</small></span><i>:</i>
+      <span class="cd-unit"><b data-k="m">00</b><small>MINUTES</small></span><i>:</i>
+      <span class="cd-unit"><b data-k="s">00</b><small>SECONDS</small></span>
+    </div>
+    <a class="el hotspot" href="https://www.google.com/maps/search/?api=1&query=Stone+Water+Resort+Karjat"
+       target="_blank" rel="noopener" style="--x:220; --y:13704; --w:640; --h:270;" aria-label="Open Stone Water Resort, Karjat in Google Maps">
+      <span class="location-label">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+        Tap for location
+      </span>
+    </a>
+
+    <!-- ========== WARDROBE PLANNER (last page) ========== -->
+    <img class="el fade" src="assets/planner/planner.png" style="--x:0; --y:14985; --w:1061;" alt="Wardrobe Planner" />
+    <a class="el hotspot planner-link" href="#" style="--x:240; --y:15095; --w:560; --h:260;" aria-label="Open wardrobe planner"></a>
+    <a class="el hotspot planner-link" href="#" style="--x:210; --y:15525; --w:640; --h:950;" aria-label="Open wardrobe planner"></a>
+    <!-- "Tap here" under the wardrobe, between the bench and the lamp -->
+    <a class="el hotspot planner-link" href="#" style="--x:440; --y:16544; --w:410; --h:90;" aria-label="Tap here to open the wardrobe planner">
+      <span class="tap-label">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6a1.5 1.5 0 0 0-3 0v10.74l-3.43-.72a1.12 1.12 0 0 0-1.03 1.88l4.01 4.01c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27a1.5 1.5 0 0 0-.75-1.43z"/></svg>
+        Tap here
+      </span>
+    </a>
+    <!-- marigold petals fall over the planner section only, once it scrolls into view -->
+    <div class="el petal-zone" style="--x:0; --y:14985; --w:1080; --h:1762;" aria-hidden="true"></div>
+
+  </main>
+
+  <script src="script.js?v=26"></script>
+</body>
+</html>
